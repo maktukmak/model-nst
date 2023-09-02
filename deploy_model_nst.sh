@@ -2,7 +2,7 @@ mkdir model_store/nst
 
 torch-model-archiver --model-name nst \
                      --version 1.0 \
-                     --serialized-file ./pytorch-AdaIN/nst.pt \
+                     --serialized-file ./nst.pt \
                      --export-path model_store/nst \
                      --handler handler_nst.py \
 
