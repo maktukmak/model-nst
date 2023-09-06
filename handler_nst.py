@@ -84,9 +84,12 @@ class handler_nst(BaseHandler):
     def postprocess(self, data):
 
         print('Postprocessing Started')
+
+        data = torch.clamp(data * 255 + 0.5, min=0, max=255).to(torch.uint8)
+
         transform = transforms.ToPILImage()
         image = transform(data.squeeze(dim=0))
-
+        
         imb = io.BytesIO()
         image.save(imb, format='PNG')
         print('Postprocessing Done')

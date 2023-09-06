@@ -7,6 +7,10 @@ from PIL import Image
 from torchvision import transforms
 from torchvision.utils import save_image
 
+import sys
+sys.path.insert(0, './pytorch-AdaIN')
+
+
 import net
 from function import adaptive_instance_normalization, coral
 #from model_combine import NST
