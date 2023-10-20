@@ -15,6 +15,7 @@ import json
 content_path  = Path("./pytorch-AdaIN/input/content/cornell.jpg")
 style_path = Path("./pytorch-AdaIN/input/style/woman_with_hat_matisse.jpg")
 alpha = 1.0
+style = 2 
 
 with open("model_config.yaml", "r") as stream:
     try:
@@ -58,12 +59,14 @@ with open(style_path, "rb") as image:
 
 
 alpha = bytearray(struct.pack("f", alpha))  
+style = bytearray(struct.pack("d", style))
 
+style_path_b = bytearray()
+style_path_b.extend(str(style_path).encode())
 
-files = [{'img_content': img_content, 'img_style': img_style, 'alpha': alpha}]
+files = [{'img_content': img_content, 'style_path': style_path_b, 'alpha': alpha}]
 
 output = handler.handle(files, context)
-
 
 output_name = Path('./') / '{:s}_stylized_{:s}{:s}'.format(
     content_path.stem, style_path.stem, '.jpg')

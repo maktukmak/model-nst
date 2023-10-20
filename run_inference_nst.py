@@ -5,10 +5,11 @@ from pathlib import Path
 from torchvision.utils import save_image
 import base64
 import struct
+import time
 
 endpoint = 'gcp' #gcp or local
 
-content_path  = Path("./pytorch-AdaIN/input/content/brad_pitt.jpg")
+content_path  = Path("./pytorch-AdaIN/input/content/mehmet.jpg")
 style_path = Path("./pytorch-AdaIN/input/style/sketch.png")
 alpha = 1.0
 
@@ -43,16 +44,17 @@ else:
                     "img_style": {"b64": convert_b64(style_path)},
                     "alpha": {"b64": alpha_p}}]
 
-
+    
     output = predict_custom_trained_model_sample(
         project="116875092850",
         endpoint_id="2615538051362848768",
         location="us-central1",
         instances=instances
     )
+    
 
-    output_name = Path('./') / '{:s}_stylized_{:s}{:s}'.format(
-        content_path.stem, style_path.stem, '.jpg')
+    output_name = Path('./') / '{:s}_stylized_{:s}_alpha_{:s}{:s}'.format(
+        content_path.stem, style_path.stem, str(alpha),'.jpg')
     #save_image(img, str(output_name))
 
     with open(str(output_name), "wb") as fh:

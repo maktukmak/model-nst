@@ -37,6 +37,29 @@ class handler_nst(BaseHandler):
         transform_list.append(transforms.ToTensor())
         self.image_processing = transforms.Compose(transform_list)
 
+        self.d_style_map = {0: 'antimonocromatismo.jpg',
+                            1: 'asheville.jpg',
+                            2: 'brushstrokes.jpg',
+                            3: 'contrast_of_forms.jpg',
+                            4: 'en_campo_gris.jpg',
+                            5: 'flower_of_life.jpg',
+                            6: 'goeritz.jpg',
+                            7: 'impronte_d_artista.jpg',
+                            8: 'la_muse.jpg',
+                            9: 'mondrian_cropped.jpg',
+                            10: 'mondrian.jpg',
+                            11: 'picasso_seated_nude_hr.jpg',
+                            12: 'picasso_self_portrait.jpg',
+                            13: 'scene_de_rue.jpg',
+                            14: 'sketch.png',
+                            15: 'the_resevoir_at_poitiers.jpg',
+                            16: 'trial.jpg',
+                            17: 'woman_in_peasant_dress_cropped.jpg',
+                            18: 'woman_in_peasant_dress.jpg',
+                            19: 'woman_with_hat_matisse.jpg',
+        }
+
+
     def preprocess(self, data):
         """The preprocess function of MNIST program converts the input data to a float tensor
 
@@ -48,11 +71,9 @@ class handler_nst(BaseHandler):
         """
         print('Preprocessing Started')
         img_content = self.image_processing(Image.open(io.BytesIO(data[0].get("img_content")))).unsqueeze(0).to(self.device)
-
         print(img_content.shape)
 
-        img_style = self.image_processing(Image.open(io.BytesIO(data[0].get("img_style")))).unsqueeze(0).to(self.device)
-
+        img_style = self.image_processing(Image.open(data[0].get("style_path").decode())).unsqueeze(0).to(self.device)
         print(img_style.shape)
 
         alpha = torch.tensor(struct.unpack('f', data[0].get("alpha"))).to(self.device)

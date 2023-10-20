@@ -4,6 +4,7 @@ from typing import Dict, List, Union
 from google.protobuf import json_format
 from google.protobuf.struct_pb2 import Value
 import base64
+import time
 
 
 def convert_b64(input_file_name):
@@ -38,9 +39,11 @@ def predict_custom_trained_model_sample(
     endpoint = client.endpoint_path(
         project=project, location=location, endpoint=endpoint_id
     )
+    start = time.time()
     response = client.predict(
         endpoint=endpoint, instances=instances, parameters=parameters
     )
+    print('Inference time:', time.time()-start)
     print("response")
     print(" deployed_model_id:", response.deployed_model_id)
     # The predictions are a google.protobuf.Value representation of the model's predictions.
