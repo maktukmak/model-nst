@@ -31,7 +31,7 @@ gcloud ai models list --region=us-central1
 
 gcloud ai endpoints deploy-model 2615538051362848768\
   --region=us-central1 \
-  --model=6919717055780356096 \
+  --model=6364208597055832064 \
   --display-name=nst \
   --min-replica-count=1 \
   --max-replica-count=1 \

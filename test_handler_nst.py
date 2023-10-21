@@ -13,7 +13,7 @@ import struct
 import json
 
 content_path  = Path("./pytorch-AdaIN/input/content/cornell.jpg")
-style_path = Path("./pytorch-AdaIN/input/style/woman_with_hat_matisse.jpg")
+style_path = Path("woman_with_hat_matisse.jpg")
 alpha = 1.0
 style = 2 
 
@@ -53,13 +53,12 @@ with open(content_path, "rb") as image:
     img_content = image.read()
     img_content = bytearray(img_content)
 
-with open(style_path, "rb") as image:
-    img_style = image.read()
-    img_style = bytearray(img_style)
+#with open(style_path, "rb") as image:
+#    img_style = image.read()
+#    img_style = bytearray(img_style)
 
 
 alpha = bytearray(struct.pack("f", alpha))  
-style = bytearray(struct.pack("d", style))
 
 style_path_b = bytearray()
 style_path_b.extend(str(style_path).encode())

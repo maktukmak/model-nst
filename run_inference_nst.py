@@ -10,7 +10,7 @@ import time
 endpoint = 'gcp' #gcp or local
 
 content_path  = Path("./pytorch-AdaIN/input/content/mehmet.jpg")
-style_path = Path("./pytorch-AdaIN/input/style/sketch.png")
+style_path = Path("/tshirt_model/nst/style/sketch.png")
 alpha = 1.0
 
 
@@ -20,9 +20,9 @@ if endpoint == 'local':
         img_content = image.read()
         img_content = bytearray(img_content)
 
-    with open(style_path, "rb") as image:
-        img_style = image.read()
-        img_style = bytearray(img_style)
+    #with open(style_path, "rb") as image:
+    #    img_style = image.read()
+    #    img_style = bytearray(img_style)
 
 
     output = requests.post("http://localhost:8080/predictions/nst", files=[('img_content',  img_content), ('img_style', img_style), ('alpha', bytearray(struct.pack("f", alpha)))])
@@ -38,10 +38,14 @@ if endpoint == 'local':
 
 else:
 
+    style_path_b = bytearray()
+    style_path_b.extend(str(style_path).encode())
+
     alpha_p = base64.encodebytes(struct.pack("f", alpha)).decode("utf-8")
+    style_path_b = base64.b64encode(style_path_b).decode("utf-8")
 
     instances = [{  "img_content": {"b64": convert_b64(content_path)} ,
-                    "img_style": {"b64": convert_b64(style_path)},
+                    "style_path": {"b64": style_path_b},
                     "alpha": {"b64": alpha_p}}]
 
     
